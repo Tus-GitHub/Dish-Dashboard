@@ -1,7 +1,14 @@
-import React from 'react'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import Dashboard from './pages/Dashboard'
+import Header from './components/Header'
 
 export default function App() {
   return (
-    <div>App</div>
+    <BrowserRouter>
+    <Header />
+      <Routes>
+        <Route path = "/" element ={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
