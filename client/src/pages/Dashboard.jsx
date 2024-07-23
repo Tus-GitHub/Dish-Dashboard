@@ -3,6 +3,7 @@ import Item from '../components/Item'
 
 export default function Dashboard() {
   const [dishes, setDishes] = useState([]);
+  const [dish, setDish] = useState([]);
   useEffect(() => {
     const listing = async () =>{
       try{
@@ -15,8 +16,14 @@ export default function Dashboard() {
     }
     listing();
   },[]);
-  const togglePublishStatus = (id) => {
-    console.log('Button Clicked');
+  const togglePublishStatus = async (id) => {
+    try{
+    const res = await fetch(`/api/listing/toggle/${id}`,{
+      method: 'POST'
+    });
+    }catch(error){
+      console.log(error);
+    }
   };
   return (
     <div className='flex gap-4 flex-col'>
