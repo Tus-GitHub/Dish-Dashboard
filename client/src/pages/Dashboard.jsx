@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
-import Item from '../components/Item'
+import { useEffect, useState } from 'react';
+import Item from '../components/Item'; 
+import io from 'socket.io-client';
+
+const socket= io('http://localhost:3000')
 
 export default function Dashboard() {
   const [dishes, setDishes] = useState([]);
-  const [dish, setDish] = useState([]);
   useEffect(() => {
     const listing = async () =>{
       try{
@@ -15,6 +17,18 @@ export default function Dashboard() {
       }
     }
     listing();
+
+    socket.on('dishUpdated', (updatedDish) => {
+      setDishes(prevDishes => 
+        prevDishes.map(dish => 
+          dish.dishId === updatedDish.dishId ? updatedDish : dish
+        )
+      );
+    });
+
+    return () => {
+      socket.off('dishUpdated');
+    };
   },[]);
   const togglePublishStatus = async (id) => {
     try{

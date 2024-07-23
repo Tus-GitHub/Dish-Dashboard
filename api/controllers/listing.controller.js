@@ -16,6 +16,7 @@ export const toggleButton = async (req, res) => {
         } 
         dish.isPublished = !dish.isPublished;
         await dish.save();
+        req.io.emit('dishUpdated', dish);
         res.json(dish);
     }catch(error){
         res.status(500).json({error: error.message });
